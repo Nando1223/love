@@ -44,7 +44,10 @@ const phrases = [
     "Cada momento a tu lado es un regalo que valoro muchísimo. ✨",
     "Tu sonrisa tiene el poder de iluminar hasta mi día más gris. 😊",
     "No me imagino un mundo donde no estés tú conmigo. 🌍",
-    "Te amo más de lo que las palabras podrían expresar jamás. 💖"
+    "Te amo más de lo que las palabras podrían expresar jamás. 💖",
+    "Bri, nunca olvides lo increíblemente fuerte que eres; tu valentía me inspira cada día. 💪✨",
+    "Admiro tu capacidad para superar cualquier obstáculo con esa luz que te hace única. 🌟",
+    "Eres una mujer guerrera y capaz de todo lo que te propongas; siempre estaré aquí para apoyarte. 🔥❤️"
 ];
 
 let currentPhrase = 0;
@@ -129,4 +132,3 @@ yesBtn.addEventListener('click', () => {
         for (let i = 0; i < 5; i++) createHeart();
     }, 100);
 });
-
