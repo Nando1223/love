@@ -1,17 +1,43 @@
-function createHeart() {
+function createHeart(x, y, isSpread = false) {
     const heart = document.createElement('div');
     heart.classList.add('heart');
     heart.innerHTML = '❤️';
-    heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.animationDuration = Math.random() * 10 + 5 + 's';
-    heart.style.fontSize = Math.random() * 20 + 10 + 'px';
-    heart.style.opacity = Math.random();
+
+    if (x && y) {
+        // Corazón en posición específica (clic/toque)
+        heart.style.left = x + 'px';
+        heart.style.top = y + 'px';
+        heart.style.fontSize = Math.random() * 20 + 15 + 'px';
+        heart.style.animation = 'floatUp 2s ease-out forwards';
+    } else {
+        // Corazón flotante de fondo
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+        heart.style.animationDuration = Math.random() * 10 + 5 + 's';
+        heart.style.opacity = Math.random();
+    }
 
     document.getElementById('heart-bg').appendChild(heart);
-    setTimeout(() => heart.remove(), 15000);
+    setTimeout(() => heart.remove(), x ? 2000 : 15000);
 }
 
-setInterval(createHeart, 300);
+// Estilo de animación para corazones de clic
+const style = document.createElement('style');
+style.innerHTML = `
+    @keyframes floatUp {
+        0% { transform: translateY(0) scale(1); opacity: 1; }
+        100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+    }
+`;
+document.head.appendChild(style);
+
+setInterval(() => createHeart(), 400);
+
+// Crear corazones al tocar/hacer clic
+document.addEventListener('mousedown', (e) => createHeart(e.clientX, e.clientY));
+document.addEventListener('touchstart', (e) => {
+    createHeart(e.touches[0].clientX, e.touches[0].clientY);
+});
 
 const phrases = [
     "Eres lo más bonito que me ha pasado en la vida. ❤️",
@@ -29,49 +55,78 @@ const questionContainer = document.getElementById('question-container');
 const finalMessage = document.getElementById('final-message');
 const noBtn = document.getElementById('no-btn');
 const yesBtn = document.getElementById('yes-btn');
+const music = document.getElementById('bg-music');
+const musicBtn = document.getElementById('music-control');
+
+let musicStarted = false;
+
+function toggleMusic() {
+    if (music.paused) {
+        music.play();
+        musicBtn.innerText = '⏸️';
+    } else {
+        music.pause();
+        musicBtn.innerText = '🎵';
+    }
+}
+
+musicBtn.addEventListener('click', toggleMusic);
 
 revealBtn.addEventListener('click', () => {
+    // Iniciar música al primer clic (necesario por políticas de navegadores)
+    if (!musicStarted) {
+        music.play();
+        musicBtn.innerText = '⏸️';
+        musicStarted = true;
+    }
+
     if (currentPhrase < phrases.length) {
-        // Cambiar texto con animación
         mainText.classList.remove('fade-in');
-        void mainText.offsetWidth; // Trigger reflow
+        void mainText.offsetWidth; // Force reflow
         mainText.innerText = phrases[currentPhrase];
         mainText.classList.add('fade-in');
-
         currentPhrase++;
 
         if (currentPhrase === phrases.length) {
             revealBtn.innerText = "Tengo una pregunta...";
         }
-
-        // Efecto de corazones
-        for (let i = 0; i < 5; i++) setTimeout(createHeart, i * 100);
     } else {
-        // Mostrar pregunta final
         interactionContainer.style.display = 'none';
         questionContainer.style.display = 'block';
         questionContainer.classList.add('fade-in');
+        // Posicionar el botón NO inicialmente
+        noBtn.style.left = '60%';
+        noBtn.style.top = '20px';
     }
 });
 
-// Lógica del botón "No" que huye
-noBtn.addEventListener('mouseover', () => {
-    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+// Botón NO que escapa (optimizado para móviles)
+function moveNoButton() {
+    const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+    const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+
+    const newX = Math.random() * maxX;
+    const newY = Math.random() * maxY;
 
     noBtn.style.position = 'fixed';
-    noBtn.style.left = x + 'px';
-    noBtn.style.top = y + 'px';
+    noBtn.style.left = newX + 'px';
+    noBtn.style.top = newY + 'px';
+}
+
+noBtn.addEventListener('mouseover', moveNoButton);
+noBtn.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    moveNoButton();
 });
 
-// Lógica del botón "Sí"
 yesBtn.addEventListener('click', () => {
     questionContainer.style.display = 'none';
     finalMessage.style.display = 'block';
     finalMessage.classList.add('fade-in');
 
-    // Lluvia masiva de corazones
+    // Lluvia masiva
     setInterval(() => {
-        for (let i = 0; i < 10; i++) createHeart();
-    }, 200);
+        for (let i = 0; i < 5; i++) createHeart();
+    }, 100);
 });
+
