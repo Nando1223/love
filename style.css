@@ -25,6 +25,7 @@ body {
     font-family: 'Outfit', sans-serif;
     overflow: hidden;
     position: relative;
+    touch-action: manipulation;
 }
 
 .heart-bg {
@@ -43,6 +44,7 @@ body {
     user-select: none;
     animation: float 15s infinite linear;
     top: 100%;
+    pointer-events: none;
 }
 
 @keyframes float {
@@ -61,7 +63,7 @@ body {
     background: var(--glass);
     backdrop-filter: blur(15px);
     border: 1px solid var(--border);
-    padding: 3rem;
+    padding: 2.5rem;
     border-radius: 30px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
     text-align: center;
@@ -85,33 +87,20 @@ body {
 
 h1 {
     font-family: 'Dancing Script', cursive;
-    font-size: 6rem;
+    font-size: min(5rem, 15vw);
     background: linear-gradient(to right, #ff4d6d, #c9184a);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 0.5rem;
     filter: drop-shadow(0 5px 15px rgba(255, 77, 109, 0.3));
-    animation: pulse 2s infinite ease-in-out;
-}
-
-@keyframes pulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.05);
-    }
 }
 
 p {
     color: #590d22;
-    font-size: 1.3rem;
-    line-height: 1.6;
-    margin-bottom: 2rem;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
     font-weight: 500;
 }
 
@@ -119,57 +108,70 @@ p {
     background: #ff4d6d;
     color: white;
     border: none;
-    padding: 1.2rem 3rem;
+    padding: 1rem 2.5rem;
     border-radius: 50px;
     font-weight: 600;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: 0 10px 25px rgba(255, 77, 109, 0.4);
-    text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
-.btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(255, 77, 109, 0.5);
-    background: #ff758f;
+.btn:active {
+    transform: scale(0.95);
 }
 
-.confetti-heart {
-    position: absolute;
-    pointer-events: none;
+.music-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    z-index: 100;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.special-gift {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border: 2px dashed #ff4d6d;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.4);
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
 }
 
 .options {
     display: flex;
-    gap: 20px;
+    gap: 15px;
     justify-content: center;
     margin-top: 2rem;
     position: relative;
-    min-height: 80px;
+    min-height: 100px;
 }
 
 .btn-no {
     background: #590d22 !important;
-    transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-}
-
-.question-text {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #ff4d6d;
-    margin-bottom: 1.5rem;
-}
-
-#final-message h2 {
-    font-family: 'Dancing Script', cursive;
-    font-size: 3.5rem;
-    background: linear-gradient(to right, #ff4d6d, #c9184a);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 1rem;
+    position: absolute;
 }
 
 .fade-in {
