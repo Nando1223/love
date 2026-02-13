@@ -29,9 +29,23 @@
 
         <div id="final-message" style="display: none;">
             <h2>¡SABÍA QUE DIRÍAS QUE SÍ! 😍</h2>
-            <p>Te amo con todo mi corazón.</p>
+            <p>Te amo con todo mi corazón, Bri.</p>
+            <div class="special-gift" id="special-gift">
+                <p>🎁 Tu regalo especial:</p>
+                <p style="font-size: 1.1rem; font-style: italic; color: #ff4d6d; margin-top: 10px;">
+                    "Cada día a tu lado es mi regalo favorito. ¡Te amo!"
+                </p>
+            </div>
         </div>
     </main>
+
+    <!-- El navegador bloque el autoplay sin interacción, se activará al pulsar el primer botón -->
+    <audio id="bg-music" loop>
+        <source
+            src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/Kai_Engel/Chapter_One__Cold/Kai_Engel_-_04_-_Moonlight_Reprise.mp3"
+            type="audio/mpeg">
+    </audio>
+    <button id="music-control" class="music-btn">🎵</button>
 
     <script src="script.js"></script>
 </body>
